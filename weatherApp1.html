@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src = "http://momentjs.com/downloads/moment.min.js"></script>
+    <script src="weatherApp.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    
+
+</head>
+<body>
+    <div data-role="page" id="checkWeather">
+        <div data-role="panel" id="mypanel" data-display="overlay">
+            <a href="#compareWeather">Compare Weather</a>
+            <br/>
+            <br/>
+            <a data-rel="close">Close</a>
+        </div>
+        <header data-role="header">
+            <title>Check Weather</title>
+            <h1 style="font-weight:bold">Weather In <span id="city"></span></h1>
+            <a data-icon="bars" href="#mypanel">Menu</a>
+        </header>
+
+        <main data-role="main">
+            <ul data-role="listview" data-filter="true" data-filter-reveal="true" data-filter-placeholder="Search for City" data-inset="true">
+                <li><button id="TOR" onclick="changeLocation(this)">Toronto, Ontario</button></li>
+                <li><button id="NYC" onclick="changeLocation(this)">New York City, New York</button></li>
+                <li><button id="LDN" onclick="changeLocation(this)">London, England</button></li>
+                <li><button id="BRAMP" onclick="changeLocation(this)">Brampton, Ontario</button></li>
+                <li><button id="MISS" onclick="changeLocation(this)">Mississauga, Ontario</button></li>
+                <li><button id="TOK" onclick="changeLocation(this)">Tokyo, Japan</button></li>
+                <li><button id="VAN" onclick="changeLocation(this)">Vancouver, British Columbia</button></li>
+                <li><button id="ABD" onclick="changeLocation(this)">Abu Dhabi, United Arab Emirates</button></li>
+                <li><button id="MIA" onclick="changeLocation(this)">Miami, California</button></li>
+            </ul>
+            <div style="width: 60%; margin: 0 auto;"><canvas id="myChart" style="margin: 0 auto"></canvas></div>
+            <div style="text-align: center; margin: 0 auto; width: 60%">
+                <p>Condition:<span id="icon"></span><img id="image" src=""/></span><p id="condition" style="float:inline;"></p></p>
+                <p>Temperature: <span id="temp"></span></p>
+                <p>Clouds: <span id="clouds"></span>%</p>
+                <p>Humidity: <span id="humidity"></span>%</p>
+                <p>Wind Speed:<span id="wind"></span></p>
+                <p>Pressure: <span id="pressure"></span>hpa</p>
+                <p>Sunrise: <span id="sunrise"></span></p>
+                <p>Sunset: <span id="sunset"></span></p>
+                <p id='lat'></p>
+                <p id='long'></p>
+            </div>
+        </main>
+    </div>
+
+    <div data-role="page" id="compareWeather">
+
+        <div data-role="panel" id="panel" data-display="overlay">
+            <a href="#checkWeather">Check Weather</a>
+            <br/>
+            <br/>
+            <a data-rel="close">Close</a>
+        </div>
+
+        <header data-role="header">
+                <h1 style="font-weight:bold">Compare Weather</span></h1>
+                <a data-icon="bars" href="#panel">Menu</a>
+        </header>
+        <main data-role="main">
+            <form>
+                <div class="ui-field-contain">
+                    <select name="select-compare-1" id="select-compare-1">
+                        <option value="TOR" selected="selected">Toronto, Ontario</option>
+                        <option value="NYC">New York City, New York</option>
+                        <option value="LDN">London, England</option>
+                        <option value="BRAMP">Brampton, Ontario</option>
+                        <option value="MISS">Mississauga, Ontario</option>
+                        <option value="MIA">Miami, California</option>
+                        <option value="TOK">Tokyo, Japan</option>
+                        <option value="VAN">Vancouver, British Columbia</option>
+                        <option value="ABD">Abu Dhabi, United Arab Emirates</option>
+                    </select>
+                </div>
+            </form>
+            <form>
+                <div class="ui-field-contain">
+                    <select name="sselect-compare-2" id="select-compare-2" >
+                        <option value="TOR">Toronto, Ontario</option>
+                        <option value="NYC" selected="selected">New York City, New York</option>
+                        <option value="LDN">London, England</option>
+                        <option value="BRAMP">Brampton, Ontario</option>
+                        <option value="MISS">Mississauga, Ontario</option>
+                        <option value="MIA">Miami, California</option>
+                        <option value="TOK">Tokyo, Japan</option>
+                        <option value="VAN">Vancouver, British Columbia</option>
+                        <option value="ABD">Abu Dhabi, United Arab Emirates</option>
+                    </select>
+                </div>
+            </form>
+            <form>
+                <div class="ui-field-contain">
+                    <select name="select-compare-3" id="select-compare-3">
+                        <option value="TOR">Toronto, Ontario</option>
+                        <option value="NYC">New York City, New York</option>
+                        <option value="LDN" selected="selected">London, England</option>
+                        <option value="BRAMP">Brampton, Ontario</option>
+                        <option value="MISS">Mississauga, Ontario</option>
+                        <option value="MIA">Miami, California</option>
+                        <option value="TOK">Tokyo, Japan</option>
+                        <option value="VAN">Vancouver, British Columbia</option>
+                        <option value="ABD">Abu Dhabi, United Arab Emirates</option>
+                    </select>
+                </div>
+            </form> 
+            <button id="compareTemps" onclick="compareWeather()">Compare Temperatures</button>
+            <div style="width: 60%; margin: 0 auto;">
+                <canvas id="compareChart" style="margin: 0 auto;"></canvas>
+            </div>
+            <!-- <hr style=" border: 0; height: 1px; background: #333; background-image: linear-gradient(to right, #ccc, #333, #ccc);"> -->
+            <div id="comparisons" style="margin: 0 auto; width: 100%">
+                <div style="margin: 0 auto">
+                <div id="city1" style="text-align: center; width: 33%; float: left">
+                    <p>City:<span class="cityName"></span></p>
+                    <p>Condition:<span class="icon"><img class="image" src=""/></span><p class="condition" style="float:inline;"></p></p>
+                    <p>Temperature: <span class="temp"></span></p>
+                    <p>Clouds: <span class="clouds"></span>%</p>
+                    <p>Humidity: <span class="humidity"></span>%</p>
+                    <p>Wind Speed:<span class="wind"></span></p>
+                    <p>Pressure: <span class="pressure"></span>hpa</p>
+                    <p>Sunrise: <span class="sunrise"></span></p>
+                    <p>Sunset: <span class="sunset"></span></p>
+                </div>
+                <!-- <hr style=" border: 0; height: 1px; background: #333; background-image: linear-gradient(to right, #ccc, #333, #ccc);"> -->
+                <div id="city2" style="text-align: center; width: 33%; float: left">
+                    <p>City:<span class="cityName"></span></p>
+                    <p>Condition:<span class="icon"><img class="image" src=""/></span><p class="condition" style="float:inline;"></p></p>
+                    <p>Temperature: <span class="temp"></span></p>
+                    <p>Clouds: <span class="clouds"></span>%</p>
+                    <p>Humidity: <span class="humidity"></span>%</p>
+                    <p>Wind Speed:<span class="wind"></span></p>
+                    <p>Pressure: <span class="pressure"></span>hpa</p>
+                    <p>Sunrise: <span class="sunrise"></span></p>
+                    <p>Sunset: <span class="sunset"></span></p>
+                </div>
+                <!-- <hr style=" border: 0; height: 1px; background: #333; background-image: linear-gradient(to right, #ccc, #333, #ccc);"> -->
+                <div id="city3" style="text-align: center; width: 33%; float: left;">
+                    <p>City:<span class="cityName"></span></p>
+                    <p>Condition:<span class="icon"><img class="image" src=""/></span><p class="condition" style="float:inline;"></p></p>
+                    <p>Temperature: <span class="temp"></span></p>
+                    <p>Clouds: <span class="clouds"></span>%</p>
+                    <p>Humidity: <span class="humidity"></span>%</p>
+                    <p>Wind Speed:<span class="wind"></span></p>
+                    <p>Pressure: <span class="pressure"></span>hpa</p>
+                    <p>Sunrise: <span class="sunrise"></span></p>
+                    <p>Sunset: <span class="sunset"></span></p>
+                </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+</body>
+</html>
